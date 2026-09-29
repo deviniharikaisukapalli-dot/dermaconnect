@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173f37">
+  <title>DermaConnect | Care network</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+<body data-page="app">
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="/" aria-label="DermaConnect home">
+        <span class="brand-mark">DC</span>
+        <span class="brand-name">DermaConnect<span>CARE NETWORK</span></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="primary-nav">
+        <button class="nav-link is-active" type="button" data-view="overview" aria-current="page"><span>01</span>Overview</button>
+        <button class="nav-link" type="button" data-view="doctor"><span>02</span>Doctor portal</button>
+        <button class="nav-link" type="button" data-view="shopkeeper"><span>03</span>Shopkeeper</button>
+        <button class="nav-link" type="button" data-view="refills"><span>04</span>Refill alerts</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="network-indicator"><i></i><span>Local network<br><strong>Prototype mode</strong></span></div>
+        <span class="sidebar-version">DERMACONNECT / 0.1</span>
+      </div>
+    </aside>
+
+    <div class="main-shell">
+      <header class="topbar">
+        <div class="topbar-context"><span class="context-rule"></span><span id="section-label">Operations overview</span></div>
+        <div class="topbar-meta"><span id="api-status" class="api-status"><i></i>Connecting</span><span class="date-stamp" id="today-label"></span></div>
+      </header>
+      <main class="workspace">
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+        <section class="page-view is-visible" id="view-overview" data-page-title="Operations overview">
+          <div class="overview-hero">
+            <div class="hero-copy">
+              <p class="eyebrow">CARE, IN THE RIGHT HANDS</p>
+              <h1>Distribution,<br><em>in sync.</em></h1>
+              <p class="hero-description">Prescriptions, verified stock, and patient refills in one connected view.</p>
+              <button class="button button-light" type="button" data-open-view="doctor">Write a prescription <span aria-hidden="true">&#8594;</span></button>
+            </div>
+            <div class="hero-cycle" aria-label="Default refill cycle is 30 days">
+              <span class="cycle-number">30</span>
+              <span class="cycle-label">DAY<br>REFILL CYCLE</span>
+              <span class="cycle-orbit"></span>
+            </div>
+            <span class="hero-index">FIELD<br>NOTE / 01</span>
+          </div>
+
+          <div class="metric-grid" aria-label="Sales overview">
+            <article class="metric-card metric-green"><span class="metric-label">Prescriptions issued</span><strong id="metric-total">--</strong><span class="metric-foot">All-time records</span><span class="metric-mark">P</span></article>
+            <article class="metric-card metric-coral"><span class="metric-label">Fulfilled</span><strong id="metric-fulfilled">--</strong><span class="metric-foot"><span id="metric-rate">--</span> fulfillment rate</span><span class="metric-mark">F</span></article>
+            <article class="metric-card metric-lime"><span class="metric-label">Refills scheduled</span><strong id="metric-refills">--</strong><span class="metric-foot">Upcoming reminders</span><span class="metric-mark">R</span></article>
+          </div>
+
+          <div class="section-heading"><div><p class="eyebrow">NETWORK PULSE</p><h2>Today at a glance</h2></div><button class="text-button" id="refresh-overview" type="button">Refresh data <span aria-hidden="true">&#8635;</span></button></div>
+          <div class="overview-grid">
+            <section class="panel panel-products">
+              <div class="panel-heading"><div><span class="panel-kicker">01 / CATALOG</span><h3>Top prescribed</h3></div><span class="panel-symbol">↗</span></div>
+              <ol class="rank-list" id="top-products"><li class="empty-state">No prescriptions yet.</li></ol>
+            </section>
+            <section class="panel panel-refills">
+              <div class="panel-heading"><div><span class="panel-kicker">02 / FOLLOW-UP</span><h3>Refill queue</h3></div><button class="quiet-link" type="button" data-open-view="refills">View all <span aria-hidden="true">&#8594;</span></button></div>
+              <div class="compact-list" id="overview-refills"><p class="empty-state">No scheduled refills.</p></div>
+            </section>
+            <section class="panel panel-points">
+              <div class="panel-heading"><div><span class="panel-kicker">03 / PARTNERS</span><h3>Shopkeeper points</h3></div><span class="points-stamp">PTS</span></div>
+              <div class="compact-list points-list" id="shopkeeper-points"><p class="empty-state">No partner activity yet.</p></div>
+            </section>
+            <section class="panel panel-recent">
+              <div class="panel-heading"><div><span class="panel-kicker">04 / ACTIVITY</span><h3>Recent prescriptions</h3></div><button class="quiet-link" type="button" data-open-view="doctor">Open portal <span aria-hidden="true">&#8594;</span></button></div>
+              <div class="table-wrap"><table><thead><tr><th>Patient</th><th>Prescriber</th><th>Issued</th><th>Status</th></tr></thead><tbody id="recent-prescriptions"><tr><td colspan="4" class="empty-state">No prescriptions have been issued.</td></tr></tbody></table></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page-view" id="view-doctor" data-page-title="Doctor portal">
+          <div class="page-heading"><div><p class="eyebrow">PRESCRIBE / CONNECT / FOLLOW UP</p><h1>Doctor portal</h1><p>Create the care plan and send a scannable prescription to the patient.</p></div><span class="heading-index">02</span></div>
+          <div class="section-heading compact-heading"><div><p class="eyebrow">NETWORK DIRECTORY</p><h2>Set up records</h2></div><span class="heading-note">Add the people and products used below.</span></div>
+          <div class="directory-grid">
+            <section class="panel form-panel"><div class="panel-heading"><div><span class="panel-kicker">01 / CLINIC</span><h3>Doctor</h3></div></div>
+              <form id="doctor-form" class="stack-form"><label>Full name<input name="full_name" autocomplete="name" required></label><label>License number<input name="license_number" required></label><button class="button button-dark" type="submit">Add doctor</button></form>
+            </section>
+            <section class="panel form-panel"><div class="panel-heading"><div><span class="panel-kicker">02 / PATIENT</span><h3>Patient</h3></div></div>
+              <form id="patient-form" class="stack-form"><label>Full name<input name="full_name" autocomplete="name" required></label><div class="form-pair"><label>Phone<input name="phone" type="tel" autocomplete="tel"></label><label>Email<input name="email" type="email" autocomplete="email"></label></div><button class="button button-dark" type="submit">Add patient</button></form>
+            </section>
+            <section class="panel form-panel"><div class="panel-heading"><div><span class="panel-kicker">03 / CATALOG</span><h3>Product</h3></div></div>
+              <form id="product-form" class="stack-form"><label>Product name<input name="name" required></label><div class="form-pair"><label>Brand<input name="brand"></label><label>SKU<input name="sku"></label></div><button class="button button-dark" type="submit">Add product</button></form>
+            </section>
+          </div>
+
+          <div class="section-heading compact-heading"><div><p class="eyebrow">NEW CARE PLAN</p><h2>Issue prescription</h2></div><span class="heading-note">Each issue creates a unique QR and 30-day reminder.</span></div>
+          <section class="panel prescription-panel">
+            <form id="prescription-form">
+              <div class="form-pair form-pair-wide"><label>Prescribing doctor<select id="prescription-doctor" name="doctor_id" required><option value="">Select doctor</option></select></label><label>Patient<select id="prescription-patient" name="patient_id" required><option value="">Select patient</option></select></label><label class="interval-field">Refill interval (days)<input name="refill_interval_days" type="number" min="1" max="365" value="30" required></label></div>
+              <div class="items-heading"><h3>Prescribed products</h3><button id="add-prescription-item" class="text-button" type="button">+ Add product</button></div>
+              <div id="prescription-items" class="prescription-items"></div>
+              <div class="prescription-submit"><span class="form-hint">The QR code opens the patient’s item and partner-stock view.</span><button class="button button-accent" type="submit">Issue &amp; create QR <span aria-hidden="true">&#8594;</span></button></div>
+            </form>
+            <div id="prescription-result" class="prescription-result" hidden></div>
+          </section>
+
+          <div class="section-heading compact-heading"><div><p class="eyebrow">RECORDS</p><h2>Recent prescriptions</h2></div></div>
+          <section class="panel"><div class="table-wrap"><table><thead><tr><th>Patient</th><th>Doctor</th><th>Issued</th><th>Status</th></tr></thead><tbody id="doctor-prescriptions"><tr><td colspan="4" class="empty-state">No prescriptions yet.</td></tr></tbody></table></div></section>
+        </section>
+
+        <section class="page-view" id="view-shopkeeper" data-page-title="Shopkeeper portal">
+          <div class="page-heading"><div><p class="eyebrow">SCAN / CHECK STOCK / FULFILL</p><h1>Shopkeeper portal</h1><p>Verify the prescription token and fulfill only the products and quantities prescribed.</p></div><span class="heading-index">03</span></div>
+          <div class="portal-grid">
+            <div class="portal-main">
+              <section class="panel scan-panel"><div class="panel-heading"><div><span class="panel-kicker">01 / SECURE CHECK</span><h3>Verify patient QR</h3></div><span class="scan-target">QR</span></div>
+                <div class="store-select-row"><label>Partner store<select id="shop-store"><option value="">Select your store</option></select></label><span id="store-location" class="field-note">Stock is checked for the selected store.</span></div>
+                <div class="scan-actions"><button id="start-scan" class="button button-dark" type="button">Open camera</button><span class="scan-divider">or enter token</span></div>
+                <video id="scan-video" class="scan-video" playsinline muted hidden></video>
+                <form id="verify-form" class="token-form"><label class="visually-hidden" for="qr-token">Prescription QR token or patient link</label><input id="qr-token" name="qr_token" placeholder="Paste QR token or patient link" autocomplete="off" required><button class="button button-accent" type="submit">Verify</button></form>
+                <div id="verification-result" class="verification-result" hidden></div>
+              </section>
+              <section class="panel stock-panel"><div class="panel-heading"><div><span class="panel-kicker">02 / INVENTORY</span><h3>Partner store stock</h3></div></div>
+                <form id="inventory-form" class="inventory-form"><label>Product<select id="inventory-product" name="product_id" required><option value="">Select product</option></select></label><label>On hand<input name="stock_quantity" type="number" min="0" step="1" required></label><button class="button button-dark" type="submit">Save stock</button></form>
+                <div id="inventory-list" class="inventory-list"><p class="empty-state">Choose a store to view its stock.</p></div>
+              </section>
+            </div>
+            <aside class="portal-aside">
+              <section class="panel store-create-panel"><div class="panel-heading"><div><span class="panel-kicker">03 / NETWORK</span><h3>Register a store</h3></div></div>
+                <form id="store-form" class="stack-form"><label>Store name<input name="name" required></label><label>Address<input name="address" required></label><div class="form-pair"><label>Latitude<input name="latitude" type="number" step="any"></label><label>Longitude<input name="longitude" type="number" step="any"></label></div><label>Phone<input name="phone" type="tel"></label><button class="button button-dark" type="submit">Add partner store</button></form>
+              </section>
+              <div class="points-note"><span class="points-note-label">REWARD RULE</span><strong>1 point</strong><span>credited per prescribed unit fulfilled.</span></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="page-view" id="view-refills" data-page-title="Refill alerts">
+          <div class="page-heading"><div><p class="eyebrow">CARE CONTINUITY</p><h1>Refill alerts</h1><p>Scheduled reminders for each issued prescription.</p></div><span class="heading-index">04</span></div>
+          <div class="refill-toolbar"><div class="filter-control"><label for="refill-filter">Show</label><select id="refill-filter"><option value="scheduled">Scheduled</option><option value="sent">Sent</option><option value="cancelled">Cancelled</option></select></div><span class="heading-note">Default cycle: 30 days after issue</span></div>
+          <div id="refill-list" class="refill-list"><p class="empty-state">Loading reminders...</p></div>
+        </section>
+      </main>
+      <footer class="app-footer"><span>DERMACONNECT / HEALTHCARE DETAILING &amp; DISTRIBUTION</span><span>LOCAL PROTOTYPE</span></footer>
+    </div>
+  </div>
+</body>
+</html>

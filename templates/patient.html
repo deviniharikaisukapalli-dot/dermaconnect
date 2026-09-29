@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173f37">
+  <title>Your care plan | DermaConnect</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+<body class="patient-page" data-page="patient" data-token="{{ token }}">
+  <header class="patient-header">
+    <a class="brand patient-brand" href="/" aria-label="DermaConnect home"><span class="brand-mark">DC</span><span class="brand-name">DermaConnect<span>CARE NETWORK</span></span></a>
+    <span class="patient-record-tag"><i></i> SECURE CARE PLAN</span>
+  </header>
+  <main class="patient-main">
+    <section class="patient-intro">
+      <p class="eyebrow">YOUR DERMAConnect CARE PLAN</p>
+      <h1 id="patient-greeting">Your prescription</h1>
+      <p id="patient-meta" class="patient-meta">Loading your prescription details...</p>
+      <span id="patient-status" class="status-pill">Loading</span>
+    </section>
+    <div id="patient-error" class="patient-error" hidden></div>
+    <div class="patient-grid">
+      <section class="patient-section patient-items-section">
+        <div class="patient-section-heading"><div><p class="eyebrow">PRESCRIBED FOR YOU</p><h2>Your products</h2></div><span class="patient-section-number">01</span></div>
+        <div id="patient-items" class="patient-items"><p class="empty-state">Loading products...</p></div>
+      </section>
+      <section class="patient-section patient-stores-section">
+        <div class="patient-section-heading"><div><p class="eyebrow">PARTNER NETWORK</p><h2>Nearby stores</h2></div><button id="use-location" class="text-button" type="button">Use my location <span aria-hidden="true">&#8599;</span></button></div>
+        <div id="patient-stores" class="patient-stores"><p class="empty-state">Loading partner stock...</p></div>
+      </section>
+    </div>
+    <p class="patient-footnote">Stock availability can change. Contact the store before visiting.</p>
+  </main>
+  <footer class="patient-footer"><span>DERMACONNECT</span><span>CARE, CONNECTED.</span></footer>
+</body>
+</html>
