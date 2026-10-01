@@ -1,16 +1,41 @@
 from io import BytesIO
+import hmac
 import math
+import os
 import secrets
 import sqlite3
 
 import qrcode
-from flask import Flask, abort, g, jsonify, render_template, request, send_file, url_for
+from flask import Flask, Response, abort, g, jsonify, render_template, request, send_file, url_for
 
 from init_db import DB_PATH, initialize_database
 
 
 app = Flask(__name__)
 initialize_database()
+DEMO_AUTH_REQUIRED = os.environ.get("DEMO_AUTH_REQUIRED", "").lower() == "true"
+DEMO_USERNAME = os.environ.get("DEMO_USERNAME", "demo")
+DEMO_PASSWORD = os.environ.get("DEMO_PASSWORD")
+
+
+@app.before_request
+def require_demo_login():
+    if not DEMO_AUTH_REQUIRED:
+        return None
+    if not DEMO_PASSWORD:
+        return "Demo password is not configured.", 503
+
+    credentials = request.authorization
+    if (
+        credentials is None
+        or not hmac.compare_digest(credentials.username or "", DEMO_USERNAME)
+        or not hmac.compare_digest(credentials.password or "", DEMO_PASSWORD)
+    ):
+        return Response(
+            "Login required.",
+            401,
+            {"WWW-Authenticate": 'Basic realm="DermaConnect demo"'},
+        )
 
 
 def get_db():
